@@ -206,6 +206,46 @@ In the 3D Print Dialogue, choose the following:
 
 - Youtube tutorials: Learn Autodesk Fusion in 30 Days https://www.youtube.com/watch?v=4G2E_DqQteM (great tutorials, you will understand everything that you need 99% of the time in the first 5 tutorials, but the other 25 are also great as you get more advanced)
 
+#### Connect Fusion to an AI assistant with MCP
+
+MCP (Model Context Protocol) lets an AI assistant use tools in another application. With Fusion's local MCP server, a compatible assistant can inspect a design, help modify geometry, and export parts.
+
+This is an optional design workflow. It does not replace measuring your components, checking the model, or following the makerspace's printing procedures.
+
+**Enable the connection in Fusion**
+
+1. Open Fusion and leave it running.
+2. Go to **Preferences → General → API**.
+3. Enable **Fusion MCP Server (runs locally on this device)**.
+4. Note the server address. The default is:
+
+```text
+http://127.0.0.1:27182/mcp
+```
+
+If you change the port in Fusion, use the same port in your AI application. This guide uses the **local Fusion MCP server**, rather than the separate cloud-based Fusion Data MCP service. [Autodesk setup instructions](https://help.autodesk.com/cloudhelp/ENU/ADSKMCP-FusionDesktopMcp/files/ADSKMCP_FusionDesktopMcp_connecting_to_the_fusion_mcp_server_html.html)
+
+**Connect Codex**
+
+With the Codex CLI installed, run:
+
+```bash
+codex mcp add fusionMCP --url http://127.0.0.1:27182/mcp
+```
+
+Alternatively, add this entry to your existing `~/.codex/config.toml`, preserving any other settings:
+
+```toml
+[mcp_servers.fusionMCP]
+url = "http://127.0.0.1:27182/mcp"
+```
+
+**Troubleshooting and access**
+
+If the tools cannot connect, check that Fusion is running, the MCP server is enabled, and both applications use the same port. Then reload the AI client. [Autodesk troubleshooting](https://help.autodesk.com/cloudhelp/ENU/ADSKMCP-FusionDesktopMcp/files/ADSKMCP_FusionDesktopMcp_troubleshooting_html.html)
+
+Keep the endpoint local. Although the Fusion connection runs on your computer, information returned to a cloud AI assistant may be processed by that provider. Only use designs you are permitted to share.
+
 ---
 
 ### SolidWorks
